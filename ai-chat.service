@@ -6,10 +6,12 @@ After=network.target
 Type=simple
 User=www
 Group=www
-WorkingDirectory=/www/wwwroot/your-domain.com/
-ExecStart=/usr/bin/python3 /www/wwwroot/your-domain.com/app.py
+WorkingDirectory=/www/wwwroot/ai-chat
+ExecStart=/www/wwwroot/ai-chat/venv/bin/python /www/wwwroot/ai-chat/app.py
 Restart=always
 RestartSec=10
+Environment=APPBUILDER_TOKEN=bce-v3/ALTAK-9K0kktgQ0XM4SHE2mvpnJ/d44f6c9d28e99b9dd5b5e972f08d4e914f7a1edd
+Environment=APP_ID=47557e8c-f26f-4bf2-89ce-0d34d6a90e97
 
 [Install]
 WantedBy=multi-user.target

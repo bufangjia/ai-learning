@@ -3,15 +3,16 @@ from flask_cors import CORS
 import appbuilder
 import os
 import uuid
+from config import Config
 
 app = Flask(__name__)
 CORS(app)
 
 # 设置环境中的TOKEN
-os.environ["APPBUILDER_TOKEN"] = "bce-v3/ALTAK-9K0kktgQ0XM4SHE2mvpnJ/d44f6c9d28e99b9dd5b5e972f08d4e914f7a1edd"
+os.environ["APPBUILDER_TOKEN"] = Config.APPBUILDER_TOKEN
 
 # 从AppBuilder控制台【个人空间】-【应用】网页获取已发布应用的ID
-app_id = "47557e8c-f26f-4bf2-89ce-0d34d6a90e97"
+app_id = Config.APP_ID
 
 # 存储对话的字典，key为conversation_id
 conversations = {}
@@ -74,4 +75,4 @@ def new_conversation():
         return jsonify({'error': f'创建对话失败: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=3000)
+    app.run(debug=Config.DEBUG, host=Config.HOST, port=Config.PORT)
