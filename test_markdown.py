@@ -14,8 +14,7 @@ def test_markdown_weather():
         response = requests.post(
             'http://localhost:3000/api/weather-predict',
             json={
-                'start_date': '2025-10-01',
-                'end_date': '2025-10-03'
+                'date': '2025-10-01'
             },
             headers={'Content-Type': 'application/json'},
             timeout=30

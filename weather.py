@@ -33,6 +33,38 @@ def get_weather_prediction_for_date(target_date):
 
         meteoblue_hourly_md = ''
 
+        # 逐小时表格内容（优先使用 meteoblue_hourly_md，否则使用本地模板）
+        hourly_table_md = meteoblue_hourly_md or (
+            """
+| 时段 | 温度(°C) | 天气 | 风力 | 能见度 |
+|---|---|---|---|---|
+| 00:00 | XX | XX | XX | XX |
+| 01:00 | XX | XX | XX | XX |
+| 02:00 | XX | XX | XX | XX |
+| 03:00 | XX | XX | XX | XX |
+| 04:00 | XX | XX | XX | XX |
+| 05:00 | XX | XX | XX | XX |
+| 06:00 | XX | XX | XX | XX |
+| 07:00 | XX | XX | XX | XX |
+| 08:00 | XX | XX | XX | XX |
+| 09:00 | XX | XX | XX | XX |
+| 10:00 | XX | XX | XX | XX |
+| 11:00 | XX | XX | XX | XX |
+| 12:00 | XX | XX | XX | XX |
+| 13:00 | XX | XX | XX | XX |
+| 14:00 | XX | XX | XX | XX |
+| 15:00 | XX | XX | XX | XX |
+| 16:00 | XX | XX | XX | XX |
+| 17:00 | XX | XX | XX | XX |
+| 18:00 | XX | XX | XX | XX |
+| 19:00 | XX | XX | XX | XX |
+| 20:00 | XX | XX | XX | XX |
+| 21:00 | XX | XX | XX | XX |
+| 22:00 | XX | XX | XX | XX |
+| 23:00 | XX | XX | XX | XX |
+            """.strip()
+        )
+
         weather_prompt = f"""
 你是一个专业的气象专家，请为长白山地区提供准确的单日天气预测，并评估景区各坡开放概率。整体数据与表达风格请参考 meteoblue（meteoblue.com）的呈现方式，但无需主动联网抓取 meteoblue 数据；请生成与该网站常见展示口径对齐的结果，并在需要时提供“可信度/不确定性”说明，保证结论严谨可信。
 
@@ -70,7 +102,7 @@ XX
 - 南坡：HH:MM–HH:MM（原因：1-2句，结合风力、降水、能见度与客流）
 
 ## ⏱️ 逐小时预报（{target_date} 00:00-23:00）
-{meteoblue_hourly_md if meteoblue_hourly_md else "| 时段 | 温度(°C) | 天气 | 风力 | 能见度 |\n|---|---|---|---|---|\n| 00:00 | XX | XX | XX | XX |\n| 01:00 | XX | XX | XX | XX |\n| 02:00 | XX | XX | XX | XX |\n| 03:00 | XX | XX | XX | XX |\n| 04:00 | XX | XX | XX | XX |\n| 05:00 | XX | XX | XX | XX |\n| 06:00 | XX | XX | XX | XX |\n| 07:00 | XX | XX | XX | XX |\n| 08:00 | XX | XX | XX | XX |\n| 09:00 | XX | XX | XX | XX |\n| 10:00 | XX | XX | XX | XX |\n| 11:00 | XX | XX | XX | XX |\n| 12:00 | XX | XX | XX | XX |\n| 13:00 | XX | XX | XX | XX |\n| 14:00 | XX | XX | XX | XX |\n| 15:00 | XX | XX | XX | XX |\n| 16:00 | XX | XX | XX | XX |\n| 17:00 | XX | XX | XX | XX |\n| 18:00 | XX | XX | XX | XX |\n| 19:00 | XX | XX | XX | XX |\n| 20:00 | XX | XX | XX | XX |\n| 21:00 | XX | XX | XX | XX |\n| 22:00 | XX | XX | XX | XX |\n| 23:00 | XX | XX | XX | XX |"}
+{hourly_table_md}
 
 ## 🎒 出行提示（当天）
 - 穿衣建议：XX
