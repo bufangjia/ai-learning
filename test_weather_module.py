@@ -5,7 +5,7 @@
 
 import requests
 import json
-from weather import get_weather_prediction, validate_date_range, get_weather_summary
+from weather import get_weather_prediction_for_date, validate_date, get_weather_summary
 
 def test_weather_module():
     """测试天气模块功能"""
@@ -17,23 +17,23 @@ def test_weather_module():
     print("1. 测试日期验证功能:")
     print("-" * 30)
     
-    # 有效日期
-    is_valid, error = validate_date_range('2025-10-01', '2025-10-03')
+    # 有效日期（单日）
+    is_valid, error = validate_date('2025-10-01')
     print(f"有效日期测试: {is_valid}, 错误信息: {error}")
     
     # 无效日期（开始日期晚于结束日期）
-    is_valid, error = validate_date_range('2025-10-03', '2025-10-01')
+    is_valid, error = validate_date('')
     print(f"无效日期测试: {is_valid}, 错误信息: {error}")
     
     # 空日期
-    is_valid, error = validate_date_range('', '2025-10-01')
+    is_valid, error = validate_date('2025-13-01')
     print(f"空日期测试: {is_valid}, 错误信息: {error}")
     
     print("\n2. 测试天气预测功能:")
     print("-" * 30)
     
     try:
-        result = get_weather_prediction('2025-10-01', '2025-10-02')
+        result = get_weather_prediction_for_date('2025-10-01')
         print("✅ 天气预测功能正常")
         print(f"预测结果长度: {len(result.get('prediction', ''))}")
         print(f"对话ID: {result.get('conversation_id', 'N/A')}")
@@ -55,10 +55,7 @@ def test_weather_module():
     try:
         response = requests.post(
             'http://localhost:3000/api/weather-predict',
-            json={
-                'start_date': '2025-10-01',
-                'end_date': '2025-10-02'
-            },
+            json={ 'date': '2025-10-01' },
             headers={'Content-Type': 'application/json'},
             timeout=30
         )

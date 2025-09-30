@@ -4,7 +4,7 @@ import appbuilder
 import os
 import uuid
 from config import Config
-from weather import get_weather_prediction, validate_date_range
+from weather import get_weather_prediction_for_date, validate_date
 
 app = Flask(__name__)
 CORS(app)
@@ -88,22 +88,21 @@ def new_conversation():
 
 @app.route('/api/weather-predict', methods=['POST'])
 def weather_predict():
-    """处理天气预测请求"""
+    """处理单日天气预测请求"""
     try:
         data = request.get_json()
-        start_date = data.get('start_date', '')
-        end_date = data.get('end_date', '')
-        
-        # 验证日期范围
-        is_valid, error_message = validate_date_range(start_date, end_date)
+        target_date = data.get('date', '')
+
+        # 验证单日日期
+        is_valid, error_message = validate_date(target_date)
         if not is_valid:
             return jsonify({'error': error_message}), 400
-        
-        # 调用天气预测模块
-        result = get_weather_prediction(start_date, end_date)
-        
+
+        # 调用天气预测模块（单日）
+        result = get_weather_prediction_for_date(target_date)
+
         return jsonify(result)
-        
+
     except Exception as e:
         return jsonify({'error': f'天气预测失败: {str(e)}'}), 500
 

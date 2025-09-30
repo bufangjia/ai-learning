@@ -54,11 +54,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 16px;
             margin-bottom: 32px;
             flex-wrap: wrap;
             background: #ffffff;
-            padding: 20px;
+            padding: 16px 20px;
             border-radius: 16px;
             border: 1px solid #e5e7eb;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -66,35 +66,31 @@
 
         .date-input-group {
             display: flex;
-            flex-direction: column;
-            gap: 6px;
-            min-width: 160px;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
             position: relative;
         }
 
         .date-input-group label {
             font-weight: 600;
-            color: #374151;
-            font-size: 13px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #111827;
+            font-size: 14px;
+            white-space: nowrap;
         }
 
         .date-input {
-            padding: 16px 20px;
+            padding: 12px 14px;
             border: 1px solid #e5e7eb;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             background: #ffffff;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             color: #1f2937;
             font-weight: 500;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
             cursor: pointer;
+            width: 220px;
         }
 
         .date-input:focus {
@@ -111,52 +107,20 @@
             transform: translateY(-1px);
         }
 
-        /* iOS风格的日期选择器样式 */
-        .date-input::-webkit-calendar-picker-indicator {
-            background: transparent;
-            bottom: 0;
-            color: transparent;
-            cursor: pointer;
-            height: auto;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: auto;
-        }
-
-        .date-input::-webkit-datetime-edit {
-            padding: 0;
-        }
-
-        .date-input::-webkit-datetime-edit-fields-wrapper {
-            padding: 0;
-        }
-
-        .date-input::-webkit-datetime-edit-text {
-            color: #6b7280;
-            padding: 0 2px;
-        }
-
-        .date-input::-webkit-datetime-edit-month-field,
-        .date-input::-webkit-datetime-edit-day-field,
-        .date-input::-webkit-datetime-edit-year-field {
-            color: #1f2937;
-            font-weight: 600;
-        }
+        /* 去除原生日期UI，仅保留文本样式，使用自定义日历 */
 
         .predict-btn {
             background: #3b82f6;
             color: white;
             border: none;
-            padding: 14px 32px;
+            padding: 12px 20px;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            min-width: 120px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            min-width: 112px;
         }
 
         .predict-btn:hover {
@@ -164,6 +128,69 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
+
+        /* 自定义下拉日历（圆角、浅色选中） */
+        .calendar-popover {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 90px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            padding: 12px;
+            z-index: 50;
+            width: 320px;
+            display: none;
+            animation: fadeIn 0.15s ease;
+        }
+
+        .calendar-popover.show { display: block; }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .calendar-title { font-weight: 600; color: #111827; font-size: 14px; }
+        .calendar-nav {
+            display: flex;
+            gap: 6px;
+        }
+        .calendar-btn {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #374151;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            padding-top: 4px;
+        }
+        .calendar-weekday {
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .calendar-day {
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 13px;
+            color: #111827;
+        }
+        .calendar-day:hover { background: #f3f4f6; }
+        .calendar-day.selected { background: #eef2ff; color: #1d4ed8; font-weight: 600; }
+        .calendar-day.disabled { color: #9ca3af; cursor: not-allowed; }
+        .calendar-day.outside { color: #9ca3af; }
 
         .predict-btn:active {
             transform: translateY(0);
@@ -271,27 +298,43 @@
 
         .result-content table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 12px 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 16px 0;
             background: white;
-            border-radius: 6px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
         }
 
+        /* 逐小时表格滚动视图，展示8行，其余滚动查看 */
+        .hourly-table-wrapper {
+            max-height: 8 * 44px; /* 约8行高度 */
+            max-height: 352px;
+            overflow-y: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+            background: #fff;
+        }
+        .hourly-table-wrapper table { box-shadow: none; border-radius: 0; margin: 0; }
+        .hourly-table-wrapper thead th { position: sticky; top: 0; z-index: 1; background: #f8fafc; }
+
         .result-content table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 10px 12px;
-            font-weight: 600;
+            background: #f8fafc;
+            color: #111827;
+            padding: 12px 14px;
+            font-weight: 700;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .result-content table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 14px;
+            padding: 10px 14px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 13px;
+            color: #374151;
         }
 
         .result-content table tr:last-child td {
@@ -299,7 +342,7 @@
         }
 
         .result-content table tr:nth-child(even) {
-            background: #f8fafc;
+            background: #fafbff;
         }
 
         .result-content ul {
@@ -456,22 +499,17 @@
         
         <div class="header">
             <h1>🏔️ 长白山天气预测</h1>
-            <p>基于AI技术，为您提供精准的长白山天气预测服务</p>
+            <p>基于AI技术，为您提供精准的长白山天池天气预测服务</p>
         </div>
 
         <div class="weather-card">
             <div class="date-selector">
                 <div class="date-input-group">
-                    <label for="startDate">开始日期</label>
-                    <input type="date" id="startDate" class="date-input" required>
+                    <label for="targetDate">预测日期</label>
+                    <input type="text" id="targetDate" class="date-input" placeholder="YYYY-MM-DD" readonly required>
+                    <div id="calendar" class="calendar-popover"></div>
                 </div>
-                <div class="date-input-group">
-                    <label for="endDate">结束日期</label>
-                    <input type="date" id="endDate" class="date-input" required>
-                </div>
-                <button class="predict-btn" onclick="predictWeather()">
-                    开始预测
-                </button>
+                <button class="predict-btn" onclick="predictWeather()">开始预测</button>
             </div>
 
             <div class="loading" id="loading">
@@ -492,38 +530,29 @@
     </div>
 
     <script>
-        // 设置日期范围（前后3个月）
+        // 设置日期范围（前后3个月），单日选择（仅自定义日历）
         function initializeDateRange() {
             const today = new Date();
-            
-            // 设置默认开始日期为明天（请求时间的第二天）
-            const startDate = new Date(today);
-            startDate.setDate(today.getDate() + 1);
-            
-            // 设置默认结束日期为明天（请求时间的第二天）
-            const endDate = new Date(today);
-            endDate.setDate(today.getDate() + 1);
-            
-            // 设置最小和最大日期（前后3个月）
+
+            // 默认预测日期为明天
+            const targetDate = new Date(today);
+            targetDate.setDate(today.getDate() + 1);
+
+            // 限制范围（前后3个月）
             const minDate = new Date(today);
             minDate.setMonth(today.getMonth() - 3);
             const maxDate = new Date(today);
             maxDate.setMonth(today.getMonth() + 3);
-            
-            // 先设置日期输入框的限制
-            document.getElementById('startDate').min = formatDate(minDate);
-            document.getElementById('startDate').max = formatDate(maxDate);
-            document.getElementById('endDate').min = formatDate(minDate);
-            document.getElementById('endDate').max = formatDate(maxDate);
-            
-            // 然后设置日期输入框的值（确保在限制范围内）
-            document.getElementById('startDate').value = formatDate(startDate);
-            document.getElementById('endDate').value = formatDate(endDate);
-            
+
+            const input = document.getElementById('targetDate');
+            input.value = formatDate(targetDate);
+
+            // 初始化自定义日历
+            setupCalendar(input, minDate, maxDate, targetDate);
+
             console.log('日期初始化完成:');
             console.log('今天:', formatDate(today));
-            console.log('开始日期:', formatDate(startDate));
-            console.log('结束日期:', formatDate(endDate));
+            console.log('预测日期:', formatDate(targetDate));
             console.log('最小日期:', formatDate(minDate));
             console.log('最大日期:', formatDate(maxDate));
         }
@@ -533,6 +562,92 @@
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
+        }
+
+        function setupCalendar(input, minDate, maxDate, selectedDate) {
+            const cal = document.getElementById('calendar');
+            let current = new Date(selectedDate);
+
+            function render() {
+                const year = current.getFullYear();
+                const month = current.getMonth();
+                const firstDay = new Date(year, month, 1);
+                const startWeekday = firstDay.getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                let html = '';
+                html += '<div class="calendar-header">';
+                html += `<div class="calendar-title">${year}年${month + 1}月</div>`;
+                html += '<div class="calendar-nav">';
+                html += '<button class="calendar-btn" id="prevMonth">‹</button>';
+                html += '<button class="calendar-btn" id="nextMonth">›</button>';
+                html += '</div></div>';
+
+                const weekdays = ['日','一','二','三','四','五','六'];
+                html += '<div class="calendar-grid">';
+                for (let i = 0; i < 7; i++) {
+                    html += `<div class="calendar-weekday">${weekdays[i]}</div>`;
+                }
+
+                for (let i = 0; i < startWeekday; i++) {
+                    html += '<div></div>';
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const d = new Date(year, month, day);
+                    const val = formatDate(d);
+                    const isDisabled = d < minDate || d > maxDate;
+                    const isSelected = formatDate(d) === formatDate(selectedDate);
+
+                    const classes = ['calendar-day'];
+                    if (isDisabled) classes.push('disabled');
+                    if (isSelected) classes.push('selected');
+
+                    html += `<div class="${classes.join(' ')}" data-date="${val}">${day}</div>`;
+                }
+
+                html += '</div>';
+                cal.innerHTML = html;
+
+                const prevBtn = document.getElementById('prevMonth');
+                const nextBtn = document.getElementById('nextMonth');
+                ['click','mousedown'].forEach(evt => {
+                    prevBtn.addEventListener(evt, (e) => { e.stopPropagation(); });
+                    nextBtn.addEventListener(evt, (e) => { e.stopPropagation(); });
+                });
+                prevBtn.addEventListener('click', function() {
+                    current.setMonth(current.getMonth() - 1);
+                    render();
+                });
+                nextBtn.addEventListener('click', function() {
+                    current.setMonth(current.getMonth() + 1);
+                    render();
+                });
+
+                cal.querySelectorAll('.calendar-day').forEach(el => {
+                    el.addEventListener('click', () => {
+                        if (el.classList.contains('disabled')) return;
+                        const dateStr = el.getAttribute('data-date');
+                        input.value = dateStr;
+                        selectedDate = new Date(dateStr);
+                        cal.classList.remove('show');
+                    });
+                });
+            }
+
+            function openCal() {
+                cal.classList.add('show');
+                render();
+            }
+            input.addEventListener('focus', openCal);
+            input.addEventListener('click', openCal);
+            // 点击弹层内部不关闭
+            ['click','mousedown'].forEach(evt => {
+                cal.addEventListener(evt, (e) => { e.stopPropagation(); });
+                input.addEventListener(evt, (e) => { e.stopPropagation(); });
+            });
+            // 点击空白处关闭
+            document.addEventListener('click', () => { cal.classList.remove('show'); });
         }
 
         function showLoading() {
@@ -546,7 +661,26 @@
 
         function showResult(content) {
             // 渲染Markdown格式的内容
-            document.getElementById('resultContent').innerHTML = renderMarkdown(content);
+            const html = renderMarkdown(content);
+            const container = document.getElementById('resultContent');
+            container.innerHTML = html;
+
+            // 使用 DOM 包装：找到包含“逐小时”文本的 h2/h3，定位其后的第一个 table
+            const headings = container.querySelectorAll('h2, h3');
+            for (const h of headings) {
+                if (h.textContent.includes('逐小时')) {
+                    let node = h.nextElementSibling;
+                    while (node && node.tagName !== 'TABLE') node = node.nextElementSibling;
+                    if (node && node.tagName === 'TABLE' && !node.parentElement.classList.contains('hourly-table-wrapper')) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'hourly-table-wrapper';
+                        node.parentElement.insertBefore(wrapper, node);
+                        wrapper.appendChild(node);
+                    }
+                    break;
+                }
+            }
+
             document.getElementById('resultContainer').classList.add('show');
         }
 
@@ -674,21 +808,15 @@
         }
 
         async function predictWeather() {
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            
-            if (!startDate || !endDate) {
-                showError('请选择开始和结束日期');
+            const date = document.getElementById('targetDate').value;
+
+            if (!date) {
+                showError('请选择预测日期');
                 return;
             }
-            
-            if (new Date(startDate) > new Date(endDate)) {
-                showError('开始日期不能晚于结束日期');
-                return;
-            }
-            
+
             showLoading();
-            
+
             try {
                 const response = await fetch('/api/weather-predict', {
                     method: 'POST',
@@ -696,13 +824,12 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        start_date: startDate,
-                        end_date: endDate
+                        date: date
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     hideLoading();
                     showResult(data.prediction);

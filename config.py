@@ -13,3 +13,9 @@ class Config:
     # 服务器配置
     HOST = '0.0.0.0'
     PORT = 3000
+
+    # 可选：meteoblue 配置（无则回退到AI推理）
+    METEOBLUE_API_KEY = os.environ.get('METEOBLUE_API_KEY')
+    METEOBLUE_LAT = os.environ.get('METEOBLUE_LAT', '42.006')  # 长白山附近
+    METEOBLUE_LON = os.environ.get('METEOBLUE_LON', '128.067')
+    METEOBLUE_ENDPOINT = os.environ.get('METEOBLUE_ENDPOINT', 'https://my.meteoblue.com/packages/basic-1h_basic-day')

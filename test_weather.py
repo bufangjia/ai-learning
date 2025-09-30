@@ -10,20 +10,14 @@ from datetime import datetime, timedelta
 def test_weather_prediction():
     """测试天气预测API"""
     
-    # 设置测试日期（今天到明天）
+    # 设置测试日期（明天）
     today = datetime.now()
     tomorrow = today + timedelta(days=1)
+    date = tomorrow.strftime('%Y-%m-%d')
+    print(f"测试日期: {date}")
     
-    start_date = today.strftime('%Y-%m-%d')
-    end_date = tomorrow.strftime('%Y-%m-%d')
-    
-    print(f"测试日期范围: {start_date} 到 {end_date}")
-    
-    # 测试数据
-    test_data = {
-        'start_date': start_date,
-        'end_date': end_date
-    }
+    # 测试数据（单日预测）
+    test_data = { 'date': date }
     
     try:
         # 发送请求到天气预测API
