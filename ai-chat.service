@@ -1,0 +1,15 @@
+[Unit]
+Description=AI Chat Application
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/your-domain.com/
+ExecStart=/usr/bin/python3 /www/wwwroot/your-domain.com/app.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
