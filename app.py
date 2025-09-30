@@ -74,4 +74,4 @@ def new_conversation():
         return jsonify({'error': f'创建对话失败: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=3000)
