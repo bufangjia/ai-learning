@@ -4,6 +4,7 @@ import appbuilder
 import os
 import uuid
 from config import Config
+from weather import get_weather_prediction, validate_date_range
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +22,17 @@ conversations = {}
 def index():
     """返回聊天页面"""
     return render_template('index.html')
+
+@app.route('/weather')
+def weather():
+    """返回天气预测页面"""
+    return render_template('weather.html')
+
+@app.route('/test-date')
+def test_date():
+    """返回日期测试页面"""
+    with open('test_simple_date.html', 'r', encoding='utf-8') as f:
+        return f.read()
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -73,6 +85,27 @@ def new_conversation():
         
     except Exception as e:
         return jsonify({'error': f'创建对话失败: {str(e)}'}), 500
+
+@app.route('/api/weather-predict', methods=['POST'])
+def weather_predict():
+    """处理天气预测请求"""
+    try:
+        data = request.get_json()
+        start_date = data.get('start_date', '')
+        end_date = data.get('end_date', '')
+        
+        # 验证日期范围
+        is_valid, error_message = validate_date_range(start_date, end_date)
+        if not is_valid:
+            return jsonify({'error': error_message}), 400
+        
+        # 调用天气预测模块
+        result = get_weather_prediction(start_date, end_date)
+        
+        return jsonify(result)
+        
+    except Exception as e:
+        return jsonify({'error': f'天气预测失败: {str(e)}'}), 500
 
 if __name__ == '__main__':
     app.run(debug=Config.DEBUG, host=Config.HOST, port=Config.PORT)
